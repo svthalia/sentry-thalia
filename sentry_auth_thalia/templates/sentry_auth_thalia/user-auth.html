@@ -1,0 +1,13 @@
+{% extends "sentry/bases/auth.html" %}
+
+{% block auth_main %}
+  <h3>Thalia Authentication</h3>
+
+  <p>
+    Login using your Thalia credentials.
+  </p>
+
+  {% with submit_label="Authenticate" %}
+    {% include "sentry/partial/_form.html" %}
+  {% endwith %}
+{% endblock %}
