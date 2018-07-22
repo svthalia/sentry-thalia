@@ -1,22 +1,11 @@
 #!/usr/bin/env python
 """
-sentry-auth-github
+sentry-auth-thalia
 ==================
 
 :copyright: (c) 2016 Functional Software, Inc
 """
-from setuptools import setup, find_packages
-
-
-install_requires = [
-    'sentry>=7.0.0',
-    'requests>=2.18.0'
-]
-
-tests_require = [
-    'mock',
-    'flake8>=2.0,<2.1',
-]
+from setuptools import setup
 
 setup(
     name='sentry-auth-thalia',
@@ -25,11 +14,13 @@ setup(
     author_email='technicie@thalia.nu',
     description='Thalia authentication provider for Sentry',
     long_description=__doc__,
-    packages=find_packages(exclude=['tests']),
+    packages=['sentry_auth_thalia'],
     zip_safe=False,
-    install_requires=install_requires,
-    tests_require=tests_require,
-    extras_require={'tests': tests_require},
+    install_requires=[
+        'sentry>=7.0.0',
+        'requests>=2.18.0'
+        ],
+    tests_require=['flake8'],
     include_package_data=True,
     entry_points={
         'sentry.apps': [
