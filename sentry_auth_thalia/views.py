@@ -6,9 +6,9 @@ from __future__ import absolute_import, print_function
 from django.core.exceptions import NON_FIELD_ERRORS
 from django import forms
 from sentry.auth.view import AuthView, ConfigureView
-from sentry.models import AuthIdentity
 
 from .client import ThaliaClient, ThaliaApiError
+
 
 class UserAuthForm(forms.Form):
     username = forms.CharField(label='Username')
@@ -32,7 +32,10 @@ class UserAuthView(AuthView):
         form = UserAuthForm(params)
         if form.is_valid():
             try:
-                token_data = self.client.authenticate(form.cleaned_data['username'], form.cleaned_data['password'])
+                token_data = self.client.authenticate(
+                    form.cleaned_data['username'],
+                    form.cleaned_data['password']
+                )
                 helper.bind_state('auth_token', token_data.get('token'))
                 user_data = self.client.get_user(token_data.get('token'))
                 helper.bind_state('user', user_data)
@@ -43,13 +46,20 @@ class UserAuthView(AuthView):
                         form._errors[NON_FIELD_ERRORS] = [e.message['detail']]
                     else:
                         for key in e.message:
-                            field = NON_FIELD_ERRORS if key == 'non_field_errors' else key
-                            form._errors[field] = form.error_class(e.message.get(key))
+                            field = (
+                                NON_FIELD_ERRORS
+                                if key == 'non_field_errors' else key
+                            )
+                            form._errors[field] = form.error_class(
+                                e.message.get(key)
+                            )
                             if field in form.cleaned_data:
                                     del form.cleaned_data[field]
                 else:
-                    form._errors[NON_FIELD_ERRORS] = ['Something went wrong with the API request: {}'.format(e.message)]
-            
+                    form._errors[NON_FIELD_ERRORS] = [
+                        'Something went wrong with the API request: {}'
+                        .format(e.message)
+                    ]
 
         return self.respond('sentry_auth_thalia/user-auth.html', {
             'form': form,
