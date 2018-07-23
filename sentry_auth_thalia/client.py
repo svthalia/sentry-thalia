@@ -27,16 +27,19 @@ class ThaliaClient(object):
 
     def _get(self, path, token=None, params={}):
         try:
-            req = self.http.get('{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
+            req = self.http.get(
+                '{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
                 params=params,
                 headers=self._headers(token),
             )
         except RequestException as e:
-            raise ThaliaApiError(unicode(e), status=getattr(e, 'status_code', 0))
+            raise ThaliaApiError(
+                unicode(e), status=getattr(e, 'status_code', 0)
+            )
 
         try:
             content = json.loads(req.content)
-        except:
+        except ValueError:
             raise ThaliaApiError(req.content, status=0)
 
         if req.status_code < 200 or req.status_code >= 300:
@@ -46,17 +49,20 @@ class ThaliaClient(object):
 
     def _post(self, path, token=None, params={}, payload={}):
         try:
-            req = self.http.post('{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
+            req = self.http.post(
+                '{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
                 params=params,
                 data=payload,
                 headers=self._headers(token),
             )
         except RequestException as e:
-            raise ThaliaApiError(unicode(e), status=getattr(e, 'status_code', 0))
-        
+            raise ThaliaApiError(
+                unicode(e), status=getattr(e, 'status_code', 0)
+            )
+
         try:
             content = json.loads(req.content)
-        except:
+        except ValueError:
             raise ThaliaApiError(req.content, status=0)
 
         if req.status_code < 200 or req.status_code >= 300:
