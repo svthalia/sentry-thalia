@@ -4,7 +4,7 @@ from requests.exceptions import RequestException
 from sentry import http
 from sentry.utils import json
 
-from .constants import API_DOMAIN, API_SECRET
+from .constants import API_URL, API_SECRET
 
 
 class ThaliaApiError(Exception):
@@ -28,7 +28,7 @@ class ThaliaClient(object):
     def _get(self, path, token=None, params={}):
         try:
             req = self.http.get(
-                '{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
+                '{0}/{1}'.format(API_URL, path.lstrip('/')),
                 params=params,
                 headers=self._headers(token),
             )
@@ -50,7 +50,7 @@ class ThaliaClient(object):
     def _post(self, path, token=None, params={}, payload={}):
         try:
             req = self.http.post(
-                '{0}/{1}'.format(API_DOMAIN, path.lstrip('/')),
+                '{0}/{1}'.format(API_URL, path.lstrip('/')),
                 params=params,
                 data=payload,
                 headers=self._headers(token),
