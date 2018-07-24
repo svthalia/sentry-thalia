@@ -17,7 +17,7 @@ Add the following variables to ``sentry.conf.py``
 
 ::
 
-   THALIA_API_DOMAIN = ""
+   THALIA_API_URL = ""
    THALIA_API_SECRET = ""
 
 .. _thalia.nu: https://thalia.nu
