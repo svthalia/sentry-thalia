@@ -56,7 +56,7 @@ class ThaliaAuthProvider(Provider):
     def refresh_identity(self, auth_identity):
         client = ThaliaClient()
         try:
-            user_data = client.get_user(auth_identity['data']['auth_token'])
+            user_data = client.get_user(auth_identity.data['auth_token'])
 
             auth_identity.user.update(
                 name=u'{} {}'.format(
