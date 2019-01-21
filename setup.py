@@ -17,7 +17,6 @@ setup(
     packages=['sentry_auth_thalia'],
     zip_safe=False,
     install_requires=[
-        'sentry>=7.0.0',
         'requests>=2.18.0'
         ],
     tests_require=['flake8'],
